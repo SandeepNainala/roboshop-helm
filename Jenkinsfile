@@ -5,15 +5,17 @@ pipeline {
   stages {
 
     stage ('Clone App Repo'){
-      dir ('APP'){
-        git branch: 'main' , url: 'https://github.com/sandeepnainala/cart'
+      steps {
+        dir ('APP'){
+          git branch: 'main' , url: 'https://github.com/sandeepnainala/cart'
       }
     }
-
-    stage('Helm Deploy'){
-      sh 'helm upgrade -i ${component} . APP/values.yaml'
-    }
-
   }
 
+    stage('Helm Deploy'){
+      steps{
+        sh 'helm upgrade -i ${component} . -f APP/values.yaml'
+      }
+    }
+  }
 }
