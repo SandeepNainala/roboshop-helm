@@ -18,6 +18,7 @@ pipeline {
 
     stage('Helm Deploy'){
       steps{
+        sh 'aws eks update-kubeconfig --name prod-eks-config'
         sh 'helm upgrade -i ${component} . -f APP/values.yaml'
       }
     }
