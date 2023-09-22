@@ -1,0 +1,21 @@
+{{- if .Values.schema.enabled }}
+apiVersion: batch/v1
+kind: job
+metadata:
+  name: {{ .Values.appName }}
+  labels:
+    {{- include "roboshop.labels" . | nindent 4 }}
+spec:
+  template:
+    spec:
+      containers:
+      - name: schema-loader
+        image: 673904956414.dkr.ecr.us-east-1.amazonaws.com/schema-loader:latest
+        imagePullPolicy: Always
+        env:
+        - name: COMPONENT
+          value: {{ .Values.appName }}
+      restartpolicy: Never
+  backofflimit: 4
+    {{- end }}
+{{- end }}
